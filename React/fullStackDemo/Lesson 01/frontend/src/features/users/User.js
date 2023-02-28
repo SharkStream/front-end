@@ -1,10 +1,9 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import { useNavigate } from 'react-router-dom'
 
-import { useSelector } from "react-redux";
-import { selectUserById } from "./UsersApiSlice";
+import { useSelector } from 'react-redux'
+import { selectUserById } from './UsersApiSlice'
 
 const User = ({ userId }) => {
     const user = useSelector(state => selectUserById(state, userId))
@@ -30,10 +29,9 @@ const User = ({ userId }) => {
                         <FontAwesomeIcon icon={faPenToSquare} />
                     </button>
                 </td>
-
             </tr>
         )
+
     } else return null
 }
-
 export default User
