@@ -15,6 +15,45 @@ headers = {
 url = "http://127.0.0.1:3500/"
 
 
+def test_get_notes():
+    api = "notes"
+    r = http.request("GET", url+api, headers=headers)
+    print(r.status)
+    print(r.data.decode("utf-8"))
+
+def test_post_notes():
+    api = "notes"
+    data = {
+        "user": "63fc707647e237d7cfe0cc33",
+        "title": "Welcome Homex",
+        "text": "Welcome to the new world"
+    }
+    r = requests.post(url+api, json=data)
+    print(r.status_code)
+    print(r.json())
+
+def test_update_notes():
+    api = "notes"
+    data = {
+        "id": "63fdab59ee455993d31b4ea0",
+        "user": "63fdaaaeee455993d31b4e9b",
+        "title": "Welcome baba",
+        "text": "Welcome to the another world",
+        "completed": True
+    }
+    r = requests.patch(url+api, json=data)
+    print(r.status_code)
+    print(r.json())
+
+def test_delete_notes():
+    api = "notes"
+    data = {
+        "id": "63fdadd16bb978e6a8c5f312",
+    }
+    r = requests.delete(url+api, json=data)
+    print(r.status_code)
+    print(r.json())
+
 def test_get_users():
     api = "users"
     r = http.request("GET", url+api, headers=headers)
@@ -25,7 +64,7 @@ def test_get_users():
 def test_post_users():
     api = "users"
     data = {
-        "username": "Ken",
+        "username": "Mic",
         "password": "!hb12345",
         "roles": ["Employee"]
     }
@@ -39,7 +78,7 @@ def test_update_users():
     api = "users"
     data = {
         "id": "63fc6f6c47e237d7cfe0cc2f", 
-        "username": "Ken",
+        "username": "Mic",
         "roles": ["Employee"], 
         "active": True, 
         "__v": 0
@@ -58,7 +97,12 @@ def test_delete_users():
     print(r.json())
 
 
-test_get_users()
+# test_get_users()
 # test_post_users()
 # test_update_users()
 # test_delete_users()
+
+# test_post_notes()
+# test_update_notes()
+test_delete_notes()
+test_get_notes()

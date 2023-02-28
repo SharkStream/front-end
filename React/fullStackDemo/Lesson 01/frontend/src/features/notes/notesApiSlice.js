@@ -4,54 +4,56 @@ import {
 } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
-const nodesAdapter = createEntityAdapter({})
+const notesAdapter = createEntityAdapter({
+    sortComparer: (a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
+})
 
-const initialState = nodesAdapter.getInitialState()
+const initialState = notesAdapter.getInitialState()
 
-export const nodesApiSlice = apiSlice.injectEndpoints({
+export const notesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getNodes: builder.query({
-            query: () => '/nodes',
+        getNotes: builder.query({
+            query: () => '/notes',
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
             keepUnusedDataFor: 5,
             transformResponse: responseData => {
-                const loadedNodes = responseData.map(node => {
-                    node.id = node._id
-                    return node
+                const loadedNotes = responseData.map(note => {
+                    note.id = note._id
+                    return note
                 })
-                return nodesAdapter.setAll(initialState, loadedNodes)
+                return notesAdapter.setAll(initialState, loadedNotes)
             },
             providesTags: (result, error, arg) => {
                 if (result?.ids) {
                     return [
-                        { type: 'Node', id: 'LIST' },
-                        ...result.ids.map(id => ({ type: 'Node', id }))
+                        { type: 'Note', id: 'LIST' },
+                        ...result.ids.map(id => ({ type: 'Note', id }))
                     ]
-                } else return [{ type: 'Node', id: 'LIST' }]
+                } else return [{ type: 'Note', id: 'LIST' }]
             }
         })
     })
 })
 
 export const {
-    nodeGetNodeQuery,
-} = nodesApiSlice
+    useGetNotesQuery,
+} = notesApiSlice
 
 // returns the query result object
-export const selectNodesResult = nodesApiSlice.endpoints.getNodes.select()
+export const selectNotesResult = notesApiSlice.endpoints.getNotes.select()
 
 // creates memoized selector
-const selectNodesData = createSelector(
-    selectNodesResult,
-    nodesResult => nodesResult.data
+const selectNotesData = createSelector(
+    selectNotesResult,
+    notesResult => notesResult.data
 )
 
 // getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
-    selectAll: selectAllNodes,
-    selectById: selectNodeById,
-    selectIds: selectNodeIds
-    // Pass in a selector that returns the nodes slice of state
-} = nodesAdapter.getSelectors(state => selectNodesData(state) ?? initialState)
+    selectAll: selectAllNotes,
+    selectById: selectNoteById,
+    selectIds: selectNoteIds
+    // Pass in a selector that returns the notes slice of state
+} = notesAdapter.getSelectors(state => selectNotesData(state) ?? initialState)
