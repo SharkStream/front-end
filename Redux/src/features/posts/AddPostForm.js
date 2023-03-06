@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { nanoid } from "@reduxjs/toolkit"
 import { postAdded } from "./postsSlice"
 import { selectAllUsers } from "../users/usersSlice"
 
@@ -26,15 +25,7 @@ const AddPostForm = () => {
 
     const onSavePostClicked = () => {
         if (canSave) {
-            dispatch(postAdded({
-                title, content, id: nanoid(), userId, date: new Date().toISOString(), reactions: {
-                    thumbsUp: 0,
-                    wow: 0,
-                    heart: 0,
-                    rocket: 0,
-                    coffee: 0
-                }
-            }))
+            dispatch(postAdded(title, content, userId))
             resetInput()
         }
     }
