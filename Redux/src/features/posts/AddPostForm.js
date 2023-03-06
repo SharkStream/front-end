@@ -26,7 +26,15 @@ const AddPostForm = () => {
 
     const onSavePostClicked = () => {
         if (canSave) {
-            dispatch(postAdded({title, content, id:nanoid(), userId, date:new Date().toISOString()}))
+            dispatch(postAdded({
+                title, content, id: nanoid(), userId, date: new Date().toISOString(), reactions: {
+                    thumbsUp: 0,
+                    wow: 0,
+                    heart: 0,
+                    rocket: 0,
+                    coffee: 0
+                }
+            }))
             resetInput()
         }
     }
@@ -44,7 +52,7 @@ const AddPostForm = () => {
             <h2>Add a New Post</h2>
             <form>
                 <label htmlFor="postTitle">Post Title:</label>
-                <input 
+                <input
                     type="text"
                     id="postTitle"
                     value={title}
@@ -61,13 +69,13 @@ const AddPostForm = () => {
                 </select>
                 <br />
                 <label htmlFor="postContent">Content:</label>
-                <textarea 
+                <textarea
                     id="postContent"
                     value={content}
                     onChange={onContentChanged}
                 />
                 <br />
-                <button 
+                <button
                     type="button"
                     onClick={onSavePostClicked}
                     disabled={!canSave}
