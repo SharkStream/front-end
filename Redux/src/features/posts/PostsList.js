@@ -12,7 +12,12 @@ const PostsList = () => {
             </article>
         )
     })
-    return postsResponse
+    return (
+        <section>
+            <h2>POST</h2>
+            {postsResponse}
+        </section>
+    )
 }
 
 export default PostsList
