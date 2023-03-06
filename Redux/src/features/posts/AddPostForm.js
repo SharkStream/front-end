@@ -26,7 +26,7 @@ const AddPostForm = () => {
 
     const onSavePostClicked = () => {
         if (canSave) {
-            dispatch(postAdded({title, content, id:nanoid(), userId}))
+            dispatch(postAdded({title, content, id:nanoid(), userId, date:new Date().toISOString()}))
             resetInput()
         }
     }
@@ -70,6 +70,7 @@ const AddPostForm = () => {
                 <button 
                     type="button"
                     onClick={onSavePostClicked}
+                    disabled={!canSave}
                 >Save Post</button>
             </form>
         </section>
